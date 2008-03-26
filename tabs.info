@@ -1,0 +1,5 @@
+; $Id$
+name = Tabs
+description = A helper module for creating tabbed pages.
+package = User Interface
+core = 6.x

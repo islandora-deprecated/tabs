@@ -1,0 +1,202 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * API for creating tabbed pages.
+ */
+
+/**
+ * Implementation of hook_menu().
+ */
+function tabs_menu() {
+  $items = array();
+
+  $items['admin/settings/tabs'] = array(
+    'path' => 'admin/settings/tabs',
+    'title' => t('Tabs'),
+    'description' => t('Configuration for tabs'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tabs_admin_settings'),
+    'access callbacks' => array('administer site configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implementation of hook_init().
+ */
+function tabs_init() {
+  tabs_load();
+}
+
+/**
+ * Implementation of hook_theme()
+ */
+function tabs_theme() {
+  return array(
+    'tabset' => array(
+      'arguments' => array('element' => NULL),
+    ),
+    'tabpage' => array(
+      'arguments' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Menu callback for admin settings.
+ */
+function tabs_admin_settings() {
+  $form = array();
+  $form['tabs_slide'] = array(
+    '#type' => 'radios',
+    '#title' => t('Slide effect'),
+    '#description' => t('Apply slide effect when changing tabs.'),
+    '#default_value' => variable_get('tabs_slide', 0),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
+  $form['tabs_fade'] = array(
+    '#type' => 'radios',
+    '#title' => t('Fade effect'),
+    '#description' => t('Apply fade effect when changing tabs.'),
+    '#default_value' => variable_get('tabs_fade', 0),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
+  $form['tabs_speed'] = array(
+    '#type' => 'radios',
+    '#title' => t('Effect speed'),
+    '#description' => t('Speed at which to apply effects.'),
+    '#default_value' => variable_get('tabs_speed', 'slow'),
+    '#options' => array('slow' => t('slow'), 'fast' => t('fast')),
+  );
+  $form['tabs_auto_height'] = array(
+    '#type' => 'radios',
+    '#title' => t('Fixed height'),
+    '#description' => t('Set all tabs to have the height of the tallest tab. If not enabled, content will adjust to fit when tabs are changed. Note: fixed height is not fully compatible with slide and fade effects.'),
+    '#default_value' => variable_get('tabs_auto_height', 0),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
+  $form['tabs_navigation'] = array(
+    '#type' => 'radios',
+    '#title' => t('Navigation buttons'),
+    '#description' => t('Enable to add "next" and "previous" buttons to the bottom of all tab sets.'),
+    '#default_value' => variable_get('tabs_navigation', 0),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
+  $form = system_settings_form($form);
+  return $form;
+}
+
+/**
+ * Process a tabset prior to rendering.
+ */
+function tabs_process_tabset($element) {
+  static $names = array();
+  // Ensure name is unique.
+  $i = 0;
+  // Assign a name, reading from the first parent (the key of this tabset element).
+  $name = $element['#tabset_name'] = ($element['#tabset_name'] ? $element['#tabset_name'] : (isset($element['#parents']) && count($element['#parents']) ? $element['#parents'][0] : 'tabset'));
+  // In case we have duplicate names...
+  while (in_array($element['#tabset_name'], $names)) {
+    $element['#tabset_name'] = $name . $i;
+    $i++;
+  }
+  $names[] = $element['#tabset_name'];
+
+  // Add class.
+  if (!isset($element['#attributes'])) {
+    $element['#attributes'] = array();
+  }
+  $element['#attributes']['class'] = (isset($element['#attributes']['class']) ? $element['#attributes']['class'] .' ' : '') .'drupal-tabs'. (isset($element['#tabs_navigation']) && $element['#tabs_navigation'] ? ' tabs-navigation' : '');
+
+  $index = 1;
+
+  // Sort the elements by weight.
+  // Because uasort doesn't keep the original order for equal values,
+  // we assign a nominal weight to all elements.
+  foreach (element_children($element) as $count => $key) {
+    if (!isset($element[$key]['#weight']) || $element[$key]['#weight'] == 0) {
+      $element[$key]['#weight'] = $count/1000;
+    }
+  }
+  uasort($element, 'element_sort');
+  foreach (element_children($element) as $key) {
+    if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
+      // Display any #description before the #content.
+      $element[$key]['#content'] = ($element[$key]['#description'] ? '<div class="description">'. $element[$key]['#description'] .'</div>' : '') . $element[$key]['#content'];
+
+      $element[$key]['#tabset_name'] = $element['#tabset_name'];
+      $element[$key]['#index'] = $index++;
+    }
+  }
+  return $element;
+}
+
+/**
+ * Return rendered tabset.
+ *
+ * @themable
+ */
+function theme_tabset($element) {
+  $output = '<div id="tabs-'. $element['#tabset_name'] .'"'. drupal_attributes($element['#attributes']) .'>';
+  $output .= '<ul>';
+  foreach (element_children($element) as $key) {
+    if ($element[$key]['#type'] && $element[$key]['#type'] == 'tabpage') {
+      $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="#tabs-'. $element['#tabset_name'] .'-'. $element[$key]['#index'] .'">'. $element[$key]['#title'] .'</a></li>';
+    }
+  }
+  $output .= '</ul>';
+  $output .= $element['#children'];
+  $output .= '</div>';
+  return $output;
+}
+
+/**
+ * Return rendered content of a tab.
+ *
+ * @themable
+ */
+function theme_tabpage($element) {
+  $output ='<div id="tabs-'. $element['#tabset_name'] .'-'. $element['#index'] .'">';
+  $output .= '<h2 class="drupal-tabs-title">'. $element['#title'] .'</h2>';
+  $output .= $element['#content'] . $element['#children'];
+  $output .='</div>';
+  return $output;
+}
+
+/**
+ * Add required js and css files.
+ */
+function tabs_load() {
+  static $loaded = FALSE;
+  if (!$loaded) {
+    $path = drupal_get_path('module', 'tabs');
+    drupal_add_js($path . '/ui.tabs.js');
+    drupal_add_js($path . '/tabs.js');
+    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => variable_get('tabs_speed', 'slow'), 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => t('next'), 'previous_text' => t('previous'))), 'setting');
+    drupal_add_css($path . '/drupal-tabs.css');
+    drupal_add_css($path . '/tabs.css');
+    $loaded = TRUE;
+  }
+}
+
+/**
+ * Render a tabset 'manually' (when not rendering as part of a regular form render).
+ */
+function tabs_render($form) {
+  $form_state = array();
+  return drupal_render(form_builder('tabset', $form, $form_state));
+}
+
+/**
+ * Implementation of hook_elements().
+ */
+function tabs_elements() {
+  $type = array();
+  // #input is needed to trigger the #process callback.
+  $type['tabset'] = array('#input' => TRUE, '#tabs_navigation' => variable_get('tabs_navigation', 0) ? TRUE : FALSE, '#process' => array('tabs_process_tabset'));
+  $type['tabpage'] = array('#content' => '');
+  return $type;
+}

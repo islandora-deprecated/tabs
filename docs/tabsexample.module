@@ -1,0 +1,60 @@
+<?php
+
+/**
+ * Implementation of hook_menu().
+ */
+function tabsexample_menu() {
+  $items = array();
+
+  $items['tabsexample'] = array(
+    'path' => 'tabsexample',
+    'title' => t('tabs example'),
+    'page callback' => 'tabs_render',
+    'page arguments' => array(tabsexample_form()),
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Generate an example set of tabs.
+ */
+function tabsexample_form() {
+  $form = array();
+
+  $form['example1'] = array(
+    '#type' => 'tabset',
+  );
+  $form['example1']['tab1'] = array(
+    '#type' => 'tabpage',
+    '#title' => t('One'),
+    '#content' => t('First tab content.'),
+  );
+  $form['example1']['tab2'] = array(
+    '#type' => 'tabpage',
+    '#title' => t('Two'),
+    '#content' => t('Second tab content.'),
+  );
+  $form['example1']['tab2']['tabset2'] = array(
+    '#type' => 'tabset',
+  );
+  $form['example1']['tab2']['tabset2']['tab1'] = array(
+    '#type' => 'tabpage',
+    '#title' => t('One'),
+    '#content' => t('First tab content.'),
+  );
+  $form['example1']['tab2']['tabset2']['tab2'] = array(
+    '#type' => 'tabpage',
+    '#title' => t('Two'),
+    '#content' => t('Second tab content.'),
+  );
+  $form['example1']['tab3'] = array(
+    '#type' => 'tabpage',
+    '#title' => t('Three'),
+    '#content' => t('Third tab content.'),
+  );
+  
+  return $form;
+}
