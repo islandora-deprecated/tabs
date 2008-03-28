@@ -71,13 +71,6 @@ function tabs_admin_settings() {
     '#default_value' => variable_get('tabs_speed', 'slow'),
     '#options' => array('slow' => t('slow'), 'fast' => t('fast')),
   );
-  $form['tabs_auto_height'] = array(
-    '#type' => 'radios',
-    '#title' => t('Fixed height'),
-    '#description' => t('Set all tabs to have the height of the tallest tab. If not enabled, content will adjust to fit when tabs are changed. Note: fixed height is not fully compatible with slide and fade effects.'),
-    '#default_value' => variable_get('tabs_auto_height', 0),
-    '#options' => array(t('disabled'), t('enabled')),
-  );
   $form['tabs_navigation'] = array(
     '#type' => 'radios',
     '#title' => t('Navigation buttons'),

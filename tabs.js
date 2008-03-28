@@ -2,6 +2,13 @@
 
 Drupal.behaviors.tabs = function (context) {
 
+  var fx = {duration: Drupal.settings.tabs.speed};
+  if (Drupal.settings.tabs.fade) {
+    fx.opacity = 'toggle';
+  }
+  if (Drupal.settings.tabs.slide) {
+    fx.height = 'toggle';
+  }
   // Process custom tabs.
   $('.drupal-tabs:not(.tabs-processed)', context)
     .addClass('tabs-processed')
@@ -10,14 +17,11 @@ Drupal.behaviors.tabs = function (context) {
         Drupal.tabsNavigation(this);
       }
     })
+    .find('> ul')
     .tabs({
       selectedClass: 'active',
-      fxFade: Drupal.settings.tabs.fade,
-      fxSlide: Drupal.settings.tabs.slide,
-      fxSpeed: Drupal.settings.tabs.speed,
-      fxAutoHeight: Drupal.settings.tabs.auto_height,
+      fx: fx,
     })
-    .find('> ul')
     .addClass('tabs')
     .each(function () {
       // Assign secondary class to nested tabsets.
@@ -32,7 +36,7 @@ Drupal.behaviors.tabs = function (context) {
 Drupal.tabsNavigation = function(elt) {
   // Extract tabset name
   var tabsetName = $(elt).get(0).id.substring(5);
-  var count = $(elt).find('> ul.anchors > li').size();
+  var count = $(elt).find('> ul > li').size();
   for (i = 1; i <= count; i++) {
     var tabContent = $('#tabs-' + tabsetName + '-' + i);
     if ((i > 1) || (i < count)) {
@@ -45,8 +49,8 @@ Drupal.tabsNavigation = function(elt) {
         .addClass('tabs-nav-previous')
         .click(function() {
           var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1));
-          $(elt).triggerTab(tabIndex - 1);
-          Drupal.scrollTo(elt);
+          $(elt).tabs('select', tabIndex - 1);
+          //Drupal.scrollTo(elt);
           return false;
         });
       tabContent.append(link);
@@ -58,8 +62,8 @@ Drupal.tabsNavigation = function(elt) {
         .addClass('tabs-nav-next')
         .click(function() {
           var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1));
-          $(elt).triggerTab(tabIndex + 1);
-          Drupal.scrollTo(elt);
+          $(elt).tabs('select', tabIndex + 1);
+          //Drupal.scrollTo(elt);
           return false;
         });
       tabContent.append(link);
@@ -78,7 +82,7 @@ Drupal.tabsLocalTasks = function(elt) {
       .each(function() {
         var index = 1;
         var activeIndex;
-        $(this).addClass('anchors')
+        $(this)
         .addClass('tabs-processed')
         .find('li > a')
         .each(function () {
