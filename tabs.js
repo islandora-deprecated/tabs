@@ -37,6 +37,7 @@ Drupal.tabsNavigation = function(elt) {
   // Extract tabset name
   var tabsetName = $(elt).get(0).id.substring(5);
   var count = $(elt).find('> ul > li').size();
+  var $tabs = $(elt).tabs();
   for (i = 1; i <= count; i++) {
     var tabContent = $('#tabs-' + tabsetName + '-' + i);
     if ((i > 1) || (i < count)) {
@@ -48,8 +49,8 @@ Drupal.tabsNavigation = function(elt) {
         .attr('id', 'tabs-' + tabsetName + '-previous-link-' + i)
         .addClass('tabs-nav-previous')
         .click(function() {
-          var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1));
-          $(elt).tabs('select', tabIndex - 1);
+          var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1)) -1;
+          $tabs.tabs('select', tabIndex - 1);
           //Drupal.scrollTo(elt);
           return false;
         });
@@ -61,8 +62,8 @@ Drupal.tabsNavigation = function(elt) {
         .attr('id', 'tabs-' + tabsetName + '-next-button-' + i)
         .addClass('tabs-nav-next')
         .click(function() {
-          var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1));
-          $(elt).tabs('select', tabIndex + 1);
+          var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1)) -1;
+          $tabs.tabs('select', tabIndex + 1);
           //Drupal.scrollTo(elt);
           return false;
         });
