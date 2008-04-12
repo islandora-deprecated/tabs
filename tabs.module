@@ -14,7 +14,7 @@ function tabs_menu() {
 
   $items['admin/settings/tabs'] = array(
     'path' => 'admin/settings/tabs',
-    'title' => 'Tabs,
+    'title' => 'Tabs',
     'description' => 'Configuration for tabs',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tabs_admin_settings'),
