@@ -20,7 +20,7 @@ Drupal.behaviors.tabs = function (context) {
     .find('> ul')
     .tabs({
       selectedClass: 'active',
-      fx: fx,
+      fx: fx
     })
     .addClass('tabs')
     .each(function () {
