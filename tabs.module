@@ -13,12 +13,11 @@ function tabs_menu() {
   $items = array();
 
   $items['admin/settings/tabs'] = array(
-    'path' => 'admin/settings/tabs',
     'title' => 'Tabs',
     'description' => 'Configuration for tabs',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('tabs_admin_settings'),
-    'access callbacks' => array('administer site configuration'),
+    'access arguments' => array('administer site configuration'),
   );
 
   return $items;
