@@ -7,8 +7,7 @@ function tabsexample_menu() {
   $items = array();
 
   $items['tabsexample'] = array(
-    'path' => 'tabsexample',
-    'title' => t('tabs example'),
+    'title' => 'tabs example',
     'page callback' => 'tabs_render',
     'page arguments' => array(tabsexample_form()),
     'access arguments' => array('access content'),
