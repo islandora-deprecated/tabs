@@ -77,6 +77,18 @@ function tabs_admin_settings() {
     '#default_value' => variable_get('tabs_navigation', 0),
     '#options' => array(t('disabled'), t('enabled')),
   );
+  $form['tabs_nav_next'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Next button caption'),
+    '#description' => t('The text to be displayed in the \'next\' button.'),
+    '#default_value' => variable_get('tabs_nav_next', t('next')),
+  );
+  $form['tabs_nav_prev'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Previous button caption'),
+    '#description' => t('The text to be displayed in the \'previous\' button.'),
+    '#default_value' => variable_get('tabs_nav_prev', t('previous')),
+  );
   $form = system_settings_form($form);
   return $form;
 }
@@ -167,7 +179,7 @@ function tabs_load() {
     $path = drupal_get_path('module', 'tabs');
     drupal_add_js($path . '/ui.tabs.js');
     drupal_add_js($path . '/tabs.js');
-    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => variable_get('tabs_speed', 'slow'), 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => t('next'), 'previous_text' => t('previous'))), 'setting');
+    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => variable_get('tabs_speed', 'slow'), 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => variable_get('tabs_nav_next', t('next')), 'previous_text' => variable_get('tabs_nav_prev', t('previous')))), 'setting');
     drupal_add_css($path . '/drupal-tabs.css');
     $loaded = TRUE;
   }
