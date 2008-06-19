@@ -32,3 +32,4 @@ span.clear {
   font-size: 0px;
   margin-bottom: -1px;
 }
+.ui-tabs-hide { display: none; }

@@ -169,7 +169,6 @@ function tabs_load() {
     drupal_add_js($path . '/tabs.js');
     drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => variable_get('tabs_speed', 'slow'), 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => t('next'), 'previous_text' => t('previous'))), 'setting');
     drupal_add_css($path . '/drupal-tabs.css');
-    drupal_add_css($path . '/tabs.css');
     $loaded = TRUE;
   }
 }
