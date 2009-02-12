@@ -148,7 +148,8 @@ function theme_tabset($element) {
   $output .= '<ul>';
   foreach (element_children($element) as $key) {
     if ($element[$key]['#type'] && $element[$key]['#type'] == 'tabpage') {
-      $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="#tabs-'. $element['#tabset_name'] .'-'. $element[$key]['#index'] .'">'. $element[$key]['#title'] .'</a></li>';
+      $tabname = !empty($element[$key]['#tab_name']) ? $element[$key]['#tab_name'] : 'tabs-' . $element['#tabset_name'] . '-' . $element[$key]['#index'];
+      $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="#' . $tabname . '">'. $element[$key]['#title'] .'</a></li>';
     }
   }
   $output .= '</ul>';
@@ -163,7 +164,8 @@ function theme_tabset($element) {
  * @themable
  */
 function theme_tabpage($element) {
-  $output ='<div id="tabs-'. $element['#tabset_name'] .'-'. $element['#index'] .'">';
+  $tabname = !empty($element['#tab_name']) ? $element['#tab_name'] : 'tabs-' . $element['#tabset_name'] . '-' . $element['#index'];
+  $output ='<div id="' . $tabname . '">';
   $output .= '<h2 class="drupal-tabs-title">'. $element['#title'] .'</h2>';
   $output .= $element['#content'] . $element['#children'];
   $output .='</div>';
