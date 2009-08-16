@@ -1,4 +1,4 @@
-<?php
+$<?php
 // $Id$
 
 /**
@@ -126,12 +126,23 @@ function tabs_process_tabset($element) {
     }
   }
   uasort($element, 'element_sort');
-  foreach (element_children($element) as $key) {
+  $children = element_children($element);
+  $num_items = count($children);
+  foreach ($children as $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
       // Display any #description before the #content.
       $element[$key]['#content'] = ($element[$key]['#description'] ? '<div class="description">'. $element[$key]['#description'] .'</div>' : '') . $element[$key]['#content'];
-
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
+      // Add a class to the first and last tabs.
+      $extra_class = '';
+      if ($index == 1) {
+        $extra_class = 'first';
+      }
+      if ($index == $num_items) {
+        $extra_class = 'last';
+      }
+      // Add class
+      $element[$key]['#attributes']['class'] = (isset($element[$key]['#attributes']['class']) ? $element[$key]['#attributes']['class'] .' ' : '') . $extra_class;
       $element[$key]['#index'] = $index++;
     }
   }
@@ -149,6 +160,8 @@ function theme_tabset($element) {
   foreach (element_children($element) as $key) {
     if ($element[$key]['#type'] && $element[$key]['#type'] == 'tabpage') {
       $tabname = !empty($element[$key]['#tab_name']) ? $element[$key]['#tab_name'] : 'tabs-' . $element['#tabset_name'] . '-' . $element[$key]['#index'];
+      // Add class
+      $element[$key]['#attributes']['class'] = (isset($element[$key]['#attributes']['class']) ? $element[$key]['#attributes']['class'] .' ' : '') . $tabname;
       $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="#' . $tabname . '">'. $element[$key]['#title'] .'</a></li>';
     }
   }
