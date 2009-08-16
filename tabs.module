@@ -179,7 +179,15 @@ function tabs_load() {
   static $loaded = FALSE;
   if (!$loaded) {
     $path = drupal_get_path('module', 'tabs');
-    drupal_add_js($path . '/ui.tabs.js');
+    // TODO: make this a dependency in D7.
+    if (module_exists('jquery_ui')) {
+      jquery_ui_add(array('ui.tabs'));
+    }
+    else {
+      drupal_add_js($path . '/ui.tabs.js');
+      drupal_add_js($path . '/ui.tabs.js');
+    }
+
     drupal_add_js($path . '/tabs.js');
     drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => variable_get('tabs_speed', 'slow'), 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => variable_get('tabs_nav_next', t('next')), 'previous_text' => variable_get('tabs_nav_prev', t('previous')))), 'setting');
     drupal_add_css($path . '/drupal-tabs.css');
