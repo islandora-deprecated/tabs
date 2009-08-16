@@ -49,6 +49,11 @@ function tabsexample_form() {
     '#title' => t('Two'),
     '#content' => t('Second tab content.'),
   );
+  // Place a standard form element (in this case, a textfield) on a tab.
+  $form['example1']['tab2']['tabset2']['tab2']['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+  );
   $form['example1']['tab3'] = array(
     '#type' => 'tabpage',
     '#title' => t('Three'),
