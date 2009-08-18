@@ -1,9 +1,3 @@
-html.js div.drupal-tabs {
-  display: none;
-}
-html.js h2.drupal-tabs-title {
-  display: none;
-}
 .tabs-nav-previous, .tabs-nav-next {
   font-size: 12px;
   font-weight: bold;
