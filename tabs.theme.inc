@@ -20,7 +20,9 @@ function theme_tabset($element) {
     }
   }
   $output .= '</ul>';
-  $output .= $element['#children'];
+  if (isset($element['#children'])) {
+    $output .= $element['#children'];
+  }
   $output .= '</div>';
   return $output;
 }

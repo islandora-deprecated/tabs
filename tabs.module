@@ -55,7 +55,7 @@ function tabs_theme() {
 function tabs_pre_render_tabset($element) {
 
   // Assign a name, reading from the first parent (the key of this tabset element).
-  $name = $element['#tabset_name'] = form_clean_id($element['#tabset_name'] ? $element['#tabset_name'] : (isset($element['#parents']) && count($element['#parents']) ? $element['#parents'][0] : 'tabset'));
+  $name = $element['#tabset_name'] = form_clean_id(isset($element['#tabset_name']) && $element['#tabset_name'] ? $element['#tabset_name'] : (isset($element['#parents']) && count($element['#parents']) ? $element['#parents'][0] : 'tabset'));
 
   // Add class.
   if (!isset($element['#attributes'])) {
@@ -79,12 +79,15 @@ function tabs_pre_render_tabset($element) {
         continue;
       }
       // Display any #description before the #content.
-      $element[$key]['#content'] = ($element[$key]['#description'] ? '<div class="description">'. $element[$key]['#description'] .'</div>' : '') . $element[$key]['#content'];
+      $element[$key]['#content'] = (isset($element[$key]['#description']) && $element[$key]['#description'] ? '<div class="description">'. $element[$key]['#description'] .'</div>' : '') . $element[$key]['#content'];
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
       $element[$key]['#title'] = check_plain($element[$key]['#title']);
       // If not explicitly set, construct a tab name from the title.
       if (empty($element[$key]['#tab_name'])) {
         $element[$key]['#tab_name'] = form_clean_id('tabs-' . strtolower($element[$key]['#title']));
+      }
+      if (!isset($element[$key]['#attributes'])) {
+        $element[$key]['#attributes'] = array();
       }
       // If we are loading via AJAX we need to add a title attribute and set the url to the AJAX path.
       if ($is_ajax) {
