@@ -1,6 +1,13 @@
 // $Id$
 
 Drupal.behaviors.tabs = function (context) {
+  // Set the active class to the first tab with an form error.
+  $('.drupal-tabs ul').children('li').each( function() {
+    if ($($(this).find('a').attr('href')).find('div.form-item .error:first').size()) {
+      $(this).addClass('error').addClass('active');
+    }
+  });
+
   var fx = {duration: Drupal.settings.tabs.speed};
   if (Drupal.settings.tabs.fade) {
     fx.opacity = 'toggle';
