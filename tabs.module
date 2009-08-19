@@ -126,7 +126,7 @@ function tabs_load() {
       jquery_ui_add(array('ui.tabs'));
     }
     else {
-      drupal_add_js($path . '/ui.tabs.js');
+      drupal_add_js($path . '/ui.core.js');
       drupal_add_js($path . '/ui.tabs.js');
     }
 

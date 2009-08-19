@@ -26,4 +26,7 @@ span.clear {
   font-size: 0px;
   margin-bottom: -1px;
 }
-.ui-tabs-hide { display: none; }
+.ui-tabs-hide {
+    position: absolute;
+    left: -1000px; 
+}
