@@ -17,7 +17,11 @@ function theme_tabset($element) {
   foreach (element_children($element) as $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
       // Ensure the tab has content before rendering it.
-      if (isset($element[$key]['#content']) && !empty($element[$key]['#content']) || (isset($element[$key]['#children']) && !empty($element[$key]['#children']))) {
+      if (
+        (isset($element[$key]['#ajax_url']) && !empty($element[$key]['#ajax_url'])) ||
+        (isset($element[$key]['#content']) && !empty($element[$key]['#content'])) ||
+        (isset($element[$key]['#children']) && !empty($element[$key]['#children']))
+      ) {
         $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="' . $element[$key]['#url'] . '"><span class="tab">'. $element[$key]['#title'] .'</span></a></li>';
       }
     }
@@ -38,7 +42,11 @@ function theme_tabset($element) {
 function theme_tabpage($element) {
   $output = '';
   // Ensure the tab has content before rendering it.
-  if (isset($element['#content']) && !empty($element['#content']) || (isset($element['#children']) && !empty($element['#children']))) {
+  if (
+    (isset($element['#ajax_url']) && !empty($element['#ajax_url'])) ||
+    (isset($element['#content']) && !empty($element['#content'])) ||
+    (isset($element['#children']) && !empty($element['#children']))
+  ) {
     $output .= '<div id="' . $element['#tab_name'] . '" class="tabs-' . $element['#tabset_name'] . '">';
     $output .= '<h2 class="drupal-tabs-title js-hide">'. $element['#title'] .'</h2>';
     $output .= $element['#content'] . $element['#children'];
