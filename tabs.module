@@ -27,13 +27,6 @@ function tabs_menu() {
 }
 
 /**
- * Implementation of hook_init().
- */
-function tabs_init() {
-  tabs_load();
-}
-
-/**
  * Implementation of hook_theme()
  */
 function tabs_theme() {
@@ -53,7 +46,7 @@ function tabs_theme() {
  * Process a tabset prior to rendering.
  */
 function tabs_pre_render_tabset($element) {
-
+  tabs_load();
   // Assign a name, reading from the first parent (the key of this tabset element).
   $name = $element['#tabset_name'] = form_clean_id(isset($element['#tabset_name']) && $element['#tabset_name'] ? $element['#tabset_name'] : (isset($element['#parents']) && count($element['#parents']) ? $element['#parents'][0] : 'tabset'));
 
