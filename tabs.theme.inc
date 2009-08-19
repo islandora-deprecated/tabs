@@ -13,12 +13,12 @@
  */
 function theme_tabset($element) {
   $output = '<div id="tabs-'. $element['#tabset_name'] .'"'. drupal_attributes($element['#attributes']) .'>';
-  $output .= '<ul>';
+  $output .= '<ul class="tabs clear-block">';
   foreach (element_children($element) as $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
       // Ensure the tab has content before rendering it.
       if (isset($element[$key]['#content']) && !empty($element[$key]['#content']) || (isset($element[$key]['#children']) && !empty($element[$key]['#children']))) {
-        $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="' . $element[$key]['#url'] . '">'. $element[$key]['#title'] .'</a></li>';
+        $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="' . $element[$key]['#url'] . '"><span class="tab">'. $element[$key]['#title'] .'</span></a></li>';
       }
     }
   }
