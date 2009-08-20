@@ -142,8 +142,7 @@ function tabs_load() {
  * Render a tabset 'manually' (when not rendering as part of a regular form render).
  */
 function tabs_render($form) {
-  $form_state = array();
-  return drupal_render(form_builder('tabset', $form, $form_state));
+  return drupal_render($form);
 }
 
 /**
