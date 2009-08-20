@@ -77,8 +77,9 @@ function tabs_pre_render_tabset($element) {
       $element[$key]['#title'] = check_plain($element[$key]['#title']);
       // If not explicitly set, construct a tab name from the title.
       if (empty($element[$key]['#tab_name'])) {
-        $element[$key]['#tab_name'] = form_clean_id('tabs-' . strtolower($element[$key]['#title']));
+        $element[$key]['#tab_name'] = 'tabs-' . $element['#tabset_name'] . '-' . $index;
       }
+      $element[$key]['#tab_name'] = form_clean_id($element[$key]['#tab_name']);
       if (!isset($element[$key]['#attributes'])) {
         $element[$key]['#attributes'] = array();
       }
