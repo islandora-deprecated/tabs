@@ -73,7 +73,14 @@ function tabs_pre_render_tabset($element) {
       }
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
       $element[$key]['#title'] = check_plain($element[$key]['#title']);
-      if (empty($element[$key]['#tab_name'])) {
+      // If no tab_name is set and we use descriptive titles, use one.
+      if ((!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) && variable_get('tabs_descriptive_urls', 1)) {
+        // Clean out invalid characters.
+        $clean_title = preg_replace('/[^\sa-zA-Z0-9\ ]+/ ', ' ', $element[$key]['#title']);
+        $element[$key]['#tab_name'] = strtolower($clean_title);
+      }
+      // If the tab_name is still empty, set one.
+      if (!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) {
         $element[$key]['#tab_name'] = 'tabs-' . $element['#tabset_name'] . '-' . $index;
       }
       $element[$key]['#tab_name'] = form_clean_id($element[$key]['#tab_name']);

@@ -12,7 +12,7 @@ function tabs_update_1() {
  * Implementation of hook_uninstall(). 
  */
 function tabs_uninstall() {
- foreach (array('slide', 'fade', 'speed', 'navigation') as $type) {
+ foreach (array('slide', 'fade', 'speed', 'navigation', 'nav_next', 'nav_previous', 'descriptive_urls') as $type) {
    variable_del('tabs_'. $type);
  }
 }

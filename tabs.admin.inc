@@ -51,6 +51,13 @@ function tabs_admin_settings() {
     '#description' => t('The text to be displayed in the \'previous\' button.'),
     '#default_value' => variable_get('tabs_nav_prev', t('previous')),
   );
+  $form['tabs_descriptive_urls'] = array(
+    '#type' => 'radios',
+    '#title' => t('Descriptive tab URLs'),
+    '#description' => t('Construct a descriptive tab URL from the title of the tab. This can be useful for making URLs of tabs more readable. However, special characters in tab titles are stripped or replaced when constructing the URL. Sites using many special characters may wish to disable this feature.'),
+    '#default_value' => variable_get('tabs_descriptive_urls', 1),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
   $form = system_settings_form($form);
   return $form;
 }
