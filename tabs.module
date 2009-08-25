@@ -71,11 +71,8 @@ function tabs_pre_render_tabset($element) {
         unset($element[$key]);
         continue;
       }
-      // Display any #description before the #content.
-      $element[$key]['#content'] = (isset($element[$key]['#description']) && $element[$key]['#description'] ? '<div class="description">'. $element[$key]['#description'] .'</div>' : '') . $element[$key]['#content'];
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
       $element[$key]['#title'] = check_plain($element[$key]['#title']);
-      // If not explicitly set, construct a tab name from the title.
       if (empty($element[$key]['#tab_name'])) {
         $element[$key]['#tab_name'] = 'tabs-' . $element['#tabset_name'] . '-' . $index;
       }
