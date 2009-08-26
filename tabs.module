@@ -74,7 +74,7 @@ function tabs_pre_render_tabset($element) {
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
       $element[$key]['#title'] = check_plain($element[$key]['#title']);
       // If no tab_name is set and we use descriptive titles, use one.
-      if ((!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) && variable_get('tabs_descriptive_urls', 1)) {
+      if ((!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) && variable_get('tabs_descriptive_urls', 0)) {
         // Clean out invalid characters.
         $clean_title = preg_replace('/[^\sa-zA-Z0-9\ ]+/ ', ' ', $element[$key]['#title']);
         $element[$key]['#tab_name'] = strtolower($clean_title);
@@ -96,7 +96,7 @@ function tabs_pre_render_tabset($element) {
       else {
         $element[$key]['#url'] = '#' .  $element[$key]['#tab_name'];
       }
-      $element[$key]['#attributes']['class'] = (isset($element[$key]['#attributes']['class']) ? $element[$key]['#attributes']['class'] .' ' : '') . $element[$key]['#tab_name'];
+      $element[$key]['#attributes']['class'] = (isset($element[$key]['#attributes']['class']) ? $element[$key]['#attributes']['class'] . ' ' : '') . $element[$key]['#tab_name'];
       // Add the active class if this tab is selected.
       if (isset($element[$key]['#selected']) && $element[$key]['#selected']) {
         $element[$key]['#attributes']['class'] .= ' active';
