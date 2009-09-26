@@ -42,14 +42,10 @@ function theme_tabset($element) {
 function theme_tabpage($element) {
   $output = '';
   // Ensure the tab has content before rendering it.
-  if (
-    (isset($element['#ajax_url']) && !empty($element['#ajax_url'])) ||
-    (isset($element['#content']) && !empty($element['#content'])) ||
-    (isset($element['#children']) && !empty($element['#children']))
-  ) {
+  if (!empty($element['#ajax_url']) || !empty($element['#content']) || !empty($element['#children'])) {
     $output .= '<div id="' . $element['#tab_name'] . '" class="tabs-' . $element['#tabset_name'] . '">';
     $output .= '<h2 class="drupal-tabs-title js-hide">'. $element['#title'] .'</h2>';
-    $output .= $element['#content'] . $element['#children'];
+    $output .= $element['#content'] . (!empty($element['#children']) ? $element['#children'] : '');
     $output .='</div>';
   }
   return $output;
