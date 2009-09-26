@@ -121,7 +121,7 @@ function tabs_load() {
   static $loaded = FALSE;
 
   if (!$loaded) {
-    $tabs_speed = variable_get('tabs_speed', 'slow');
+    $tabs_speed = variable_get('tabs_speed', 'fast');
     if (is_numeric($tabs_speed)) {
       $tabs_speed = (int) $tabs_speed;
     }

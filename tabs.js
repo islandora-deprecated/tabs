@@ -1,5 +1,7 @@
 // $Id$
 
+Drupal.tabs = Drupal.tabs || {};
+
 Drupal.behaviors.tabs = function (context) {
   // Set the active class to the first tab with an form error.
   $('.drupal-tabs ul').children('li').each( function() {
@@ -21,7 +23,7 @@ Drupal.behaviors.tabs = function (context) {
     .addClass('tabs-processed')
     .each(function () {
       if ($(this).is('.tabs-navigation')) {
-        Drupal.tabsNavigation(this);
+        Drupal.tabs.tabsNavigation(this);
       }
     })
     .find('> ul')
@@ -45,7 +47,7 @@ Drupal.behaviors.tabs = function (context) {
     .show();
 };
 
-Drupal.tabsNavigation = function(elt) {
+Drupal.tabs.tabsNavigation = function(elt) {
   // Extract tabset name.
   var tabsetName = $(elt).get(0).id.substring(5);
   var $tabs = $(elt).tabs();
@@ -58,26 +60,26 @@ Drupal.tabsNavigation = function(elt) {
     }
     if (i > 1) {
       var link = $(document.createElement('a'))
-        .append(Drupal.settings.tabs.previous_text)
+        .append('<span>' + Drupal.settings.tabs.previous_text + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-previous-link-' + i)
         .addClass('tabs-nav-previous')
         .click(function() {
           var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1)) -1;
           $tabs.tabs('select', tabIndex - 1);
-          //Drupal.scrollTo(elt);
+          Drupal.tabs.scrollTo(elt);
           return false;
         });
       $(this).append(link);
     }
     if (i < count) {
       var link = $(document.createElement('a'))
-        .append(Drupal.settings.tabs.next_text)
+        .append('<span>' + Drupal.settings.tabs.next_text + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-next-button-' + i)
         .addClass('tabs-nav-next')
         .click(function() {
           var tabIndex = parseInt($(this).attr('id').substring($(this).attr('id').lastIndexOf('-') + 1)) -1;
           $tabs.tabs('select', tabIndex + 1);
-          //Drupal.scrollTo(elt);
+          Drupal.tabs.scrollTo(elt);
           return false;
         });
       $(this).append(link);
@@ -85,5 +87,14 @@ Drupal.tabsNavigation = function(elt) {
     $tabsContent.append('<span class="clear"></span>');
     i++;
   });
+};
+
+Drupal.tabs.scrollTo = function(elt) {
+  // Scroll to the top of the tab.
+  var offset = $(elt).offset();
+  // Only scroll upwards.
+  if (offset.top - 10 < $(window).scrollTop()) {
+    $('html,body').animate({scrollTop: (offset.top - 10)}, 500);
+  }
 };
 

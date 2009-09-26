@@ -29,7 +29,7 @@ function tabs_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Effect speed'),
     '#description' => t('Speed at which to apply effects.'),
-    '#default_value' => variable_get('tabs_speed', 'slow'),
+    '#default_value' => variable_get('tabs_speed', 'fast'),
     '#options' => array('slow' => t('slow'), 'fast' => t('fast'), '1' => t('immediate')),
   );
   $form['tabs_navigation'] = array(
