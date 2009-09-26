@@ -97,9 +97,9 @@ function tabs_pre_render_tabset($element) {
         $element[$key]['#url'] = '#' .  $element[$key]['#tab_name'];
       }
       $element[$key]['#attributes']['class'] = (isset($element[$key]['#attributes']['class']) ? $element[$key]['#attributes']['class'] . ' ' : '') . $element[$key]['#tab_name'];
-      // Add the active class if this tab is selected.
+      // Add the ui-tabs-selected class if this tab is selected.
       if (isset($element[$key]['#selected']) && $element[$key]['#selected']) {
-        $element[$key]['#attributes']['class'] .= ' active';
+        $element[$key]['#attributes']['class'] .= ' ui-tabs-selected';
       }
       // Add a class to the first and last tabs.
       if ($index == 0) {

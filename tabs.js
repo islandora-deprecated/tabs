@@ -6,7 +6,7 @@ Drupal.behaviors.tabs = function (context) {
   // Set the active class to the first tab with an form error.
   $('.drupal-tabs ul').children('li').each( function() {
     if ($($(this).find('a').attr('href')).find('div.form-item .error:first').size()) {
-      $(this).addClass('error').addClass('active');
+      $(this).addClass('error').addClass('ui-tabs-selected');
     }
   });
 
@@ -27,13 +27,11 @@ Drupal.behaviors.tabs = function (context) {
       }
     })
     .find('> ul')
-    .each(function () {
-      var href = $(this).find('li.active:first a').attr('href');
-      selected = href ? href.substring(href.indexOf('#')) : 1;
-    })
     .tabs({
-      select: selected,
-      selectedClass: 'active',
+      // Add the 'active' class when showing tabs and remove it from siblings.
+      show: function(event, ui) {
+        $(ui.tab).parent('li').addClass('active').siblings('li').removeClass('active');
+      },
       fx: fx
     })
     .addClass('tabs')
