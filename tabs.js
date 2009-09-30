@@ -20,14 +20,9 @@ Drupal.behaviors.tabs = function (context) {
   // Process custom tabs.
   var selected = null;
   $('.drupal-tabs:not(.tabs-processed)', context)
-    .addClass('tabs-processed')
-    .each(function () {
-      if ($(this).is('.tabs-navigation')) {
-        Drupal.tabs.tabsNavigation(this);
-      }
-    })
     .find('> ul')
     .tabs({
+      spinner: Drupal.t('Loading...'),
       // Add the 'active' class when showing tabs and remove it from siblings.
       show: function(event, ui) {
         $(ui.tab).parent('li').addClass('active').siblings('li').removeClass('active');
@@ -42,13 +37,19 @@ Drupal.behaviors.tabs = function (context) {
     })
     .after('<span class="clear"></span>')
     .end()
+    .addClass('tabs-processed')
+    .each(function () {
+      if ($(this).is('.tabs-navigation')) {
+        Drupal.tabs.tabsNavigation(this);
+      }
+    })
     .show();
 };
 
 Drupal.tabs.tabsNavigation = function(elt) {
   // Extract tabset name.
   var tabsetName = $(elt).get(0).id.substring(5);
-  var $tabs = $(elt).tabs();
+  var $tabs = $('> ul', elt);
   var i = 1;
   var $tabsContent = $('div.' + 'tabs-' + tabsetName, elt);
   var count = $tabsContent.size();
