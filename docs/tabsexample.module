@@ -122,5 +122,16 @@ function tabsexample_ajax_tabset() {
  * Menu callback: return sample AJAX content.
  */
 function tabsexample_ajax() {
-  echo t('Sample content loaded via AJAX.');
+  $content = t('Sample content loaded via AJAX.');
+
+  if ($this == $that) {
+    $response = array(
+      'status' => TRUE,
+      'content' => $content,
+    );
+    drupal_json($response);
+  }
+  else {
+    return $content;
+  }
 }

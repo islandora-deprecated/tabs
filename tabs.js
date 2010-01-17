@@ -4,7 +4,7 @@ Drupal.tabs = Drupal.tabs || {};
 
 Drupal.behaviors.tabs = function (context) {
   // Set the active class to the first tab with an form error.
-  $('.drupal-tabs ul').children('li').each( function() {
+  $('.drupal-tabs').children('ul > li').each( function() {
     if ($($(this).find('a').attr('href')).find('div.form-item .error:first').size()) {
       $(this).addClass('error').addClass('ui-tabs-selected');
     }
