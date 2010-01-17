@@ -66,6 +66,7 @@ function tabs_pre_render_tabset($element) {
       }
       if (isset($element[$key]['#description']) && $element[$key]['#description']) {
         $element[$key]['#content'] = '<div class="description">'. $element[$key]['#description'] .'</div>' . $element[$key]['#content'];
+        unset($element[$key]['#description']);
       }
       $is_ajax = isset($element[$key]['#ajax_url']) && $element[$key]['#ajax_url'];
       // Unset any empty tabs.
