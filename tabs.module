@@ -64,6 +64,9 @@ function tabs_pre_render_tabset($element) {
       if (!isset($element[$key]['#content'])) {
         $element[$key]['#content'] = '';
       }
+      if (isset($element[$key]['#description']) && $element[$key]['#description']) {
+        $element[$key]['#content'] = '<div class="description">'. $element[$key]['#description'] .'</div>' . $element[$key]['#content'];
+      }
       $is_ajax = isset($element[$key]['#ajax_url']) && $element[$key]['#ajax_url'];
       // Unset any empty tabs.
       $content = trim($element[$key]['#content']);
@@ -72,7 +75,7 @@ function tabs_pre_render_tabset($element) {
         continue;
       }
       $element[$key]['#tabset_name'] = $element['#tabset_name'];
-      $element[$key]['#title'] = check_plain($element[$key]['#title']);
+
       // If no tab_name is set and we use descriptive titles, use one.
       if ((!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) && variable_get('tabs_descriptive_urls', 0)) {
         // Clean out invalid characters.
