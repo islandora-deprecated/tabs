@@ -85,7 +85,7 @@ function tabs_pre_render_tabset($element) {
       }
       // If the tab_name is still empty, set one.
       if (!isset($element[$key]['#tab_name']) || empty($element[$key]['#tab_name'])) {
-        $element[$key]['#tab_name'] = 'tabs-' . $element['#tabset_name'] . '-' . $index;
+        $element[$key]['#tab_name'] = $element['#tabset_name'] . '-tab-' . $index;
       }
       $element[$key]['#tab_name'] = form_clean_id($element[$key]['#tab_name']);
       if (!isset($element[$key]['#attributes'])) {
