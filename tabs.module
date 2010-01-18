@@ -140,7 +140,7 @@ function tabs_load() {
     }
 
     drupal_add_js($path . '/tabs.js');
-    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => $tabs_speed, 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => variable_get('tabs_nav_next', t('next')), 'previous_text' => variable_get('tabs_nav_prev', t('previous')))), 'setting');
+    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => $tabs_speed, 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => variable_get('tabs_nav_next', t('next')), 'previous_text' => variable_get('tabs_nav_prev', t('previous')), 'navigation_titles' => variable_get('tabs_navigation_titles', 0))), 'setting');
     drupal_add_css($path . '/drupal-tabs.css');
     $loaded = TRUE;
   }

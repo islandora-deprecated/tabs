@@ -51,6 +51,13 @@ function tabs_admin_settings() {
     '#description' => t('The text to be displayed in the \'previous\' button.'),
     '#default_value' => variable_get('tabs_nav_prev', t('previous')),
   );
+  $form['tabs_navigation_titles'] = array(
+    '#type' => 'radios',
+    '#title' => t('Take captions from tab titles'),
+    '#description' => t('Enable to use tht titles of the next or previous tabs for "next" and "previous" button captions. If this option is enabled, the next and previous captions above will be ignored.'),
+    '#default_value' => variable_get('tabs_navigation_titles', 0),
+    '#options' => array(t('disabled'), t('enabled')),
+  );
   $form['tabs_descriptive_urls'] = array(
     '#type' => 'radios',
     '#title' => t('Descriptive tab URLs'),

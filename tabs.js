@@ -51,15 +51,16 @@ Drupal.tabs.tabsNavigation = function(elt) {
   var tabsetName = $(elt).get(0).id.substring(5);
   var $tabs = $('> ul', elt);
   var i = 1;
-  var $tabsContent = $('div.' + 'tabs-' + tabsetName, elt);
+  var $tabsContent = $('div.tabs-' + tabsetName, elt);
   var count = $tabsContent.size();
   $tabsContent.each(function() {
     if ((i > 1) || (i < count)) {
       $(this).append('<span class="clear"></span><div class="tabs-nav-link-sep"></div>');
     }
     if (i > 1) {
+      var previousText = '‹ ' + (Drupal.settings.tabs.navigation_titles ? $tabs.find('> li:eq(' + parseInt(i - 2) + ')').text() : Drupal.settings.tabs.previous_text);
       var link = $(document.createElement('a'))
-        .append('<span>' + Drupal.settings.tabs.previous_text + '</span>')
+        .append('<span>' + previousText + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-previous-link-' + i)
         .addClass('tabs-nav-previous')
         .click(function() {
@@ -71,8 +72,9 @@ Drupal.tabs.tabsNavigation = function(elt) {
       $(this).append(link);
     }
     if (i < count) {
+      var nextText = (Drupal.settings.tabs.navigation_titles ? $tabs.find('> li:eq(' + parseInt(i) + ')').text() : Drupal.settings.tabs.next_text) + ' ›';
       var link = $(document.createElement('a'))
-        .append('<span>' + Drupal.settings.tabs.next_text + '</span>')
+        .append('<span>' + nextText + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-next-button-' + i)
         .addClass('tabs-nav-next')
         .click(function() {
