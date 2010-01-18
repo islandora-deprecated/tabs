@@ -13,6 +13,7 @@
  */
 function theme_tabset($element) {
   $output = '<div id="tabs-'. $element['#tabset_name'] .'"'. drupal_attributes($element['#attributes']) .'>';
+  $output .= '<div class="description">'. $element['#description'] .'</div>';
   $output .= '<ul class="clear-block">';
   foreach (element_children($element) as $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
