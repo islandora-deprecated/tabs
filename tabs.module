@@ -58,7 +58,6 @@ function tabs_pre_render_tabset($element) {
 
   $children = element_children($element);
 
-  $num_items = count($children);
   foreach ($children as $index => $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
       if (!isset($element[$key]['#content'])) {
@@ -104,13 +103,6 @@ function tabs_pre_render_tabset($element) {
       // Add the ui-tabs-selected class if this tab is selected.
       if (isset($element[$key]['#selected']) && $element[$key]['#selected']) {
         $element[$key]['#attributes']['class'] .= ' ui-tabs-selected';
-      }
-      // Add a class to the first and last tabs.
-      if ($index == 0) {
-        $element[$key]['#attributes']['class'] .= ' first';
-      }
-      if ($index + 1 == $num_items) {
-        $element[$key]['#attributes']['class'] .= ' last';
       }
       $element[$key]['#index'] = $index;
     }

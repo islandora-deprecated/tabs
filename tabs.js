@@ -33,7 +33,13 @@ Drupal.behaviors.tabs = function (context) {
     .each(function () {
       // Assign secondary class to nested tabsets.
       var newClass = $(this).parents('.drupal-tabs').size() > 1 ? 'secondary' : 'primary';
-      $(this).addClass(newClass);
+      $(this)
+        .addClass(newClass)
+        .find('>li:first')
+        .addClass('first')
+        .end()
+        .find('>li:last')
+        .addClass('last');
     })
     .after('<span class="clear"></span>')
     .end()
