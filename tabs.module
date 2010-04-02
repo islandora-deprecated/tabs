@@ -44,9 +44,12 @@ function tabs_theme() {
 
 /**
  * Process a tabset prior to rendering.
+ *
+ * Passes the tabset element through drupal_alter() so that modules can implement hook_tabs_alter().
  */
 function tabs_pre_render_tabset($element) {
   tabs_load();
+
   // Assign a name, reading from the first parent (the key of this tabset element).
   $name = $element['#tabset_name'] = form_clean_id(isset($element['#tabset_name']) && $element['#tabset_name'] ? $element['#tabset_name'] : (isset($element['#parents']) && count($element['#parents']) ? $element['#parents'][0] : 'tabset'));
 
@@ -55,6 +58,9 @@ function tabs_pre_render_tabset($element) {
     $element['#attributes'] = array();
   }
   $element['#attributes']['class'] = (isset($element['#attributes']['class']) ? $element['#attributes']['class'] .' ' : '') .'drupal-tabs js-hide'. (isset($element['#tabs_navigation']) && $element['#tabs_navigation'] ? ' tabs-navigation' : '');
+
+  // Allow other modules to alter the tabset before further processing.
+  drupal_alter('tabs', $element);
 
   $children = element_children($element);
 
