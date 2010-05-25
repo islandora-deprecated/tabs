@@ -128,17 +128,33 @@ function tabs_load() {
       $tabs_speed = (int) $tabs_speed;
     }
     $path = drupal_get_path('module', 'tabs');
-    // TODO: make this a dependency in D7.
+    // TODO: remove this test in D7, since jquery_ui is in core.
     if (module_exists('jquery_ui')) {
       jquery_ui_add(array('ui.tabs'));
+      if (version_compare(jquery_ui_get_version(), '1.7', '>=')) {
+         drupal_add_js($path . '/tabs_ui.js');
+       }
+       else {
+         drupal_add_js($path . '/tabs.js');
+       }
     }
     else {
       drupal_add_js($path . '/ui.core.js');
       drupal_add_js($path . '/ui.tabs.js');
+      drupal_add_js($path . '/tabs.js');
     }
 
-    drupal_add_js($path . '/tabs.js');
-    drupal_add_js(array('tabs' => array('slide' => (bool) variable_get('tabs_slide', 0), 'fade' => (bool) variable_get('tabs_fade', 0), 'speed' => $tabs_speed, 'auto_height' => (bool) variable_get('tabs_auto_height', 0), 'next_text' => variable_get('tabs_nav_next', t('next')), 'previous_text' => variable_get('tabs_nav_prev', t('previous')), 'navigation_titles' => (bool) variable_get('tabs_navigation_titles', 0))), 'setting');
+    drupal_add_js(
+      array('tabs' => array(
+        'slide' => (bool) variable_get('tabs_slide', 0),
+        'fade' => (bool) variable_get('tabs_fade', 0),
+        'speed' => $tabs_speed,
+        'auto_height' => (bool) variable_get('tabs_auto_height', 0),
+        'next_text' => variable_get('tabs_nav_next', t('next')),
+        'previous_text' => variable_get('tabs_nav_prev', t('previous')),
+        'navigation_titles' => (bool) variable_get('tabs_navigation_titles', 0),
+      )),
+    'setting');
     drupal_add_css($path . '/drupal-tabs.css');
     $loaded = TRUE;
   }
