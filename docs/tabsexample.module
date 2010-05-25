@@ -45,7 +45,7 @@ function tabsexample_form() {
     '#type' => 'tabpage',
     '#title' => t('One'),
     // This will be the content of the tab.
-    '#content' => t('First tab content.'),
+    '#content' => t('First tab content.') . theme('item_list', array(t('one'), t('two'), t('three'))),
   );
   $form['example1']['tab2'] = array(
     '#type' => 'tabpage',

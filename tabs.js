@@ -20,7 +20,6 @@ Drupal.behaviors.tabs = function (context) {
   // Process custom tabs.
   var selected = null;
   $('.drupal-tabs:not(.tabs-processed)', context)
-    .find('> ul')
     .tabs({
       spinner: Drupal.t('Loading...'),
       // Add the 'active' class when showing tabs and remove it from siblings.
@@ -29,6 +28,7 @@ Drupal.behaviors.tabs = function (context) {
       },
       fx: fx
     })
+    .find('> ul')
     .addClass('tabs')
     .each(function () {
       // Assign secondary class to nested tabsets.
@@ -55,7 +55,7 @@ Drupal.behaviors.tabs = function (context) {
 Drupal.tabs.tabsNavigation = function(elt) {
   // Extract tabset name.
   var tabsetName = $(elt).get(0).id.substring(5);
-  var $tabs = $('> ul', elt);
+  var $tabs = $(elt);
   var i = 1;
   var $tabsContent = $('div.tabs-' + tabsetName, elt);
   var count = $tabsContent.size();
@@ -64,7 +64,7 @@ Drupal.tabs.tabsNavigation = function(elt) {
       $(this).append('<span class="clear"></span><div class="tabs-nav-link-sep"></div>');
     }
     if (i > 1) {
-      var previousText = '‹ ' + (Drupal.settings.tabs.navigation_titles ? $tabs.find('> li:eq(' + parseInt(i - 2) + ')').text() : Drupal.settings.tabs.previous_text);
+      var previousText = '‹ ' + (Drupal.settings.tabs.navigation_titles ? $tabs.find('ul > li:eq(' + parseInt(i - 2) + ')').text() : Drupal.settings.tabs.previous_text);
       var link = $(document.createElement('a'))
         .append('<span>' + previousText + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-previous-link-' + i)
@@ -78,7 +78,7 @@ Drupal.tabs.tabsNavigation = function(elt) {
       $(this).append(link);
     }
     if (i < count) {
-      var nextText = (Drupal.settings.tabs.navigation_titles ? $tabs.find('> li:eq(' + parseInt(i) + ')').text() : Drupal.settings.tabs.next_text) + ' ›';
+      var nextText = (Drupal.settings.tabs.navigation_titles ? $tabs.find('ul > li:eq(' + parseInt(i) + ')').text() : Drupal.settings.tabs.next_text) + ' ›';
       var link = $(document.createElement('a'))
         .append('<span>' + nextText + '</span>')
         .attr('id', 'tabs-' + tabsetName + '-next-button-' + i)
