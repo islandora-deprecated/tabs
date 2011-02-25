@@ -1,4 +1,3 @@
-; $Id$
 name = Tabs Example
 description = An example tabs implementation. Access the sample tabs at /tabsexample.
 package = User Interface
