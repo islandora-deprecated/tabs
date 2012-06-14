@@ -1,4 +1,4 @@
 name = Tabs
 description = A helper module for creating tabbed pages.
 core = 6.x
-version = 6.x-12.2.0-RC1
+version = 6.x-12.2.0-RC2
