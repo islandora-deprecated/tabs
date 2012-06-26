@@ -21,14 +21,14 @@ function tabs_admin_settings() {
     '#type' => 'radios',
     '#title' => t('Fade effect'),
     '#description' => t('Apply fade effect when changing tabs.'),
-    '#default_value' => variable_get('tabs_fade', 0),
+    '#default_value' => variable_get('tabs_fade', 1),
     '#options' => array(t('disabled'), t('enabled')),
   );
   $form['tabs_speed'] = array(
     '#type' => 'radios',
     '#title' => t('Effect speed'),
     '#description' => t('Speed at which to apply effects.'),
-    '#default_value' => variable_get('tabs_speed', 'fast'),
+    '#default_value' => variable_get('tabs_speed', '1'),
     '#options' => array('slow' => t('slow'), 'fast' => t('fast'), '1' => t('immediate')),
   );
   $form['tabs_navigation'] = array(

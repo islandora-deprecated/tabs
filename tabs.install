@@ -15,3 +15,20 @@ function tabs_uninstall() {
    variable_del('tabs_'. $type);
  }
 }
+
+
+/**
+* Variable value update
+*/
+function tabs_update_6000() {
+  $ret = array();
+  // set new value
+  variable_set('tabs_fade', 1);
+  variable_set('tabs_speed', 'fast');
+  
+  // set messages
+  $ret[] = array('success' => TRUE, 'query' => 'variable_set(\'tabs_fade\', 1)');
+  $ret[] = array('success' => TRUE, 'query' => 'variable_set(\'tabs_speed\', \'fast\')');
+  
+  return $ret;
+}
