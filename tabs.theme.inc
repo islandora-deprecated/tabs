@@ -13,9 +13,18 @@
 function theme_tabset($element) {
   $output = '<div id="tabs-'. $element['#tabset_name'] .'"'. drupal_attributes($element['#attributes']) .'>';
   $output .= '<div class="description">'. $element['#description'] .'</div>';
-  $output .= '<ul class="clear-block">';
+
+  $tabpage_keys = array();
   foreach (element_children($element) as $key) {
     if (isset($element[$key]['#type']) && $element[$key]['#type'] == 'tabpage') {
+      $tabpage_keys[] = $key;
+    }
+  }
+  
+  //Avoid rendering tabs if there is only one.
+  if (count($tabpage_keys) > 1) {
+    $output .= '<ul class="clear-block">';
+    foreach ($tabpage_keys as $key) {
       // Ensure the tab has content before rendering it.
       if (
         (isset($element[$key]['#ajax_url']) && !empty($element[$key]['#ajax_url'])) ||
@@ -25,8 +34,9 @@ function theme_tabset($element) {
         $output .= '<li'. drupal_attributes($element[$key]['#attributes']) .'><a href="' . $element[$key]['#url'] . '"><span class="tab">'. $element[$key]['#title'] .'</span></a></li>';
       }
     }
+    $output .= '</ul>';
   }
-  $output .= '</ul>';
+  
   if (isset($element['#children'])) {
     $output .= $element['#children'];
   }
