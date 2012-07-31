@@ -27,8 +27,10 @@ span.clear {
   margin-bottom: -1px;
 }
 .ui-tabs-hide {
-  position: relative;
+  position: absolute;
   left: -15000px;
   top: -15000px;
   visibility: hidden; 
+  *position: relative;
+  *visibility: none; 
 }
