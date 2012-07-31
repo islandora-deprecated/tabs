@@ -31,4 +31,6 @@ span.clear {
   left: -15000px;
   top: -15000px;
   visibility: hidden; 
+  *position: relative;
+  *visibility: none; 
 }
